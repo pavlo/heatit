@@ -2,7 +2,6 @@ package app
 
 import (
 	"github.com/pavlo/heatit/utils"
-	"log"
 	"errors"
 )
 
@@ -22,18 +21,18 @@ type Param struct {
 	paramType int
 }
 
-func NewParameters(yamlFilename string) *Parameters  {
-	if (yamlFilename == EMPTY) {
-		return &Parameters { data: make(map[string]Param) }
-	}
+func NewParameters(yamlFilename string) (*Parameters, error)  {
 
 	result := &Parameters { data: make(map[string]Param) }
+
+	if (yamlFilename == EMPTY) {
+		return result, nil
+	}
 
 	data, err := utils.ParseYamlFile(yamlFilename)
 
 	if err != nil {
-		log.Println(err)
-		log.Fatalf("Failed to parse parameters YAML from %v", yamlFilename)
+		return nil, err
 	}
 
 	for k, v := range data {
@@ -47,7 +46,7 @@ func NewParameters(yamlFilename string) *Parameters  {
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func (params *Parameters) getValue(name string) (value string, err error) {

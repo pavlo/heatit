@@ -5,8 +5,9 @@ import (
 )
 
 func TestNewParameters(t *testing.T) {
-	p := NewParameters("../fixtures/params.yaml")
-	if p == nil {
+	p, err := NewParameters("../fixtures/params.yaml")
+
+	if err != nil {
 		t.Errorf("Failed to create an instance of Parameters!")
 	}
 
@@ -20,8 +21,8 @@ func TestNewParameters(t *testing.T) {
 }
 
 func TestNewParametersNoYamlFile(t *testing.T) {
-	p := NewParameters("")
-	if p == nil {
+	p, err := NewParameters("")
+	if err != nil {
 		t.Errorf("Failed to create an instance of Parameters!")
 	}
 
@@ -30,8 +31,15 @@ func TestNewParametersNoYamlFile(t *testing.T) {
 	}
 }
 
+func TestNewParametersInvalidYamlFile(t *testing.T) {
+	_, err := NewParameters("../fixtures/invalid-yaml-file.yaml")
+	if err == nil {
+		t.Errorf("Expected to receive an error, because YAML file is not parseable!")
+	}
+}
+
 func TestGetValue(t *testing.T) {
-	p := NewParameters("../fixtures/params.yaml")
+	p, _ := NewParameters("../fixtures/params.yaml")
 
 	v, err := p.getValue("network-interface")
 
@@ -44,7 +52,7 @@ func TestGetValue(t *testing.T) {
 }
 
 func TestGetNonExistentValue(t *testing.T) {
-	p := NewParameters("../fixtures/params.yaml")
+	p, _ := NewParameters("../fixtures/params.yaml")
 
 	_, err := p.getValue("does-not-exits")
 

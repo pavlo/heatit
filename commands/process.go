@@ -10,6 +10,6 @@ import (
 func PerformTheProcessCommand(c *cli.Context) {
 	log.Println("I am the Process Command!")
 
-	p := app.NewParameters("foo")
+	p, _ := app.NewParameters("foo")
 	fmt.Println(p)
 }
