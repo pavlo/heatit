@@ -8,16 +8,16 @@ import (
 )
 
 const (
-	VERSION					= "0.0.1"
-	DIRECTIVE_INDICATOR 	= "@"
-	DIRECTIVE_SEPARATOR   	= ":"
-	IMPORT_DIRECTIVE 		= DIRECTIVE_INDICATOR + "import"
-	INSERT_DIRECTIVE 		= DIRECTIVE_INDICATOR + "insert"
-	PARAM_DIRECTIVE 		= DIRECTIVE_INDICATOR + "param"
-	NEW_LINE				= "\n"
+	VERSION             = "0.0.1"
+	DIRECTIVE_INDICATOR = "@"
+	DIRECTIVE_SEPARATOR = ":"
+	IMPORT_DIRECTIVE    = DIRECTIVE_INDICATOR + "import"
+	INSERT_DIRECTIVE    = DIRECTIVE_INDICATOR + "insert"
+	PARAM_DIRECTIVE     = DIRECTIVE_INDICATOR + "param"
+	NEW_LINE            = "\n"
 
-	SPACE					= " "
-	EMPTY					= ""
+	SPACE = " "
+	EMPTY = ""
 )
 
 func main() {
@@ -37,41 +37,41 @@ func main() {
 func appCommands() []cli.Command {
 	return []cli.Command{
 
-		cli.Command {
-			Name: "process",
-			Usage: "Processess a YAML template",
+		cli.Command{
+			Name:   "process",
+			Usage:  "Processess a YAML template",
 			Action: commands.PerformTheProcessCommand,
-			Flags: []cli.Flag {
+			Flags: []cli.Flag{
 				cli.StringFlag{
-					Name: "source, s",
+					Name:  "source, s",
 					Value: "heat.yaml",
 					Usage: "Source HEAT template to process",
 				},
 				cli.StringFlag{
-					Name: "destination, d",
+					Name:  "destination, d",
 					Value: "result.yaml",
 					Usage: "Destination file where the resulting YAML will be saved",
 				},
 				cli.StringFlag{
-					Name: "params, p",
+					Name:  "params, p",
 					Value: "",
 					Usage: "A flat YAML file (k/v) to take parameters from",
 				},
 			},
 		},
 		/*
-		cli.Command {
-			Name: "new",
-			Usage: "Creates a new Heatit project in the current directory",
-			Action: nil,
-		},
+			cli.Command {
+				Name: "new",
+				Usage: "Creates a new Heatit project in the current directory",
+				Action: nil,
+			},
 		*/
 		/*
-		cli.Command {
-			Name: "generate",
-			Usage: "Generates an asset",
-			Action: nil,
-		},
+			cli.Command {
+				Name: "generate",
+				Usage: "Generates an asset",
+				Action: nil,
+			},
 		*/
 	}
 }
@@ -79,7 +79,7 @@ func appCommands() []cli.Command {
 func appFlags() []cli.Flag {
 	return []cli.Flag{
 		cli.BoolFlag{
-			Name: "verbose",
+			Name:  "verbose",
 			Usage: "show more output",
 		},
 	}
@@ -114,7 +114,6 @@ func appFlags() []cli.Flag {
 //	fmt.Print(string(bytes))
 //}
 
-
 /*
 func processDirectives(data map[interface{}]interface{}) error {
 	for k, v := range data {
@@ -140,7 +139,6 @@ func processDirectives(data map[interface{}]interface{}) error {
 	return nil
 }
 */
-
 
 /*
 func processParams(data string, params map[interface{}]interface{}) []byte {
@@ -168,7 +166,6 @@ func processParams(data string, params map[interface{}]interface{}) []byte {
 	return result.Bytes()
 }
 */
-
 
 /*
 func processInserts(content string) string {
@@ -206,7 +203,6 @@ func processInserts(content string) string {
 	return result.String()
 }
 */
-
 
 /*func extractArgumentFromDirective(directive string) string {
 	segments := strings.Split(directive, DIRECTIVE_SEPARATOR)

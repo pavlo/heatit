@@ -1,8 +1,8 @@
 package app
 
 import (
-	"github.com/pavlo/heatit/utils"
 	"errors"
+	"github.com/pavlo/heatit/utils"
 )
 
 const EMPTY = ""
@@ -12,20 +12,20 @@ const (
 )
 
 type Parameters struct {
-	data map[string] Param
+	data map[string]Param
 }
 
 type Param struct {
-	name string
-	value string
+	name      string
+	value     string
 	paramType int
 }
 
-func NewParameters(yamlFilename string) (*Parameters, error)  {
+func NewParameters(yamlFilename string) (*Parameters, error) {
 
-	result := &Parameters { data: make(map[string]Param) }
+	result := &Parameters{data: make(map[string]Param)}
 
-	if (yamlFilename == EMPTY) {
+	if yamlFilename == EMPTY {
 		return result, nil
 	}
 
@@ -39,9 +39,9 @@ func NewParameters(yamlFilename string) (*Parameters, error)  {
 		key := k.(string)
 		value := v.(string)
 
-		result.data[key] = Param {
-			name: key,
-			value: value,
+		result.data[key] = Param{
+			name:      key,
+			value:     value,
 			paramType: TypeSimple,
 		}
 	}
@@ -58,4 +58,3 @@ func (params *Parameters) getValue(name string) (value string, err error) {
 
 	return p.value, nil
 }
-

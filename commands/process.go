@@ -1,10 +1,10 @@
 package commands
 
 import (
-	"github.com/codegangsta/cli"
-	"log"
-	"github.com/pavlo/heatit/app"
 	"fmt"
+	"github.com/codegangsta/cli"
+	"github.com/pavlo/heatit/app"
+	"log"
 )
 
 func PerformTheProcessCommand(c *cli.Context) {
