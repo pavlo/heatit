@@ -1,15 +1,7 @@
 package main
 
 import (
-	"bytes"
-	"io/ioutil"
-	"strings"
-	"flag"
-	"fmt"
-	"gopkg.in/yaml.v2"
 	"github.com/codegangsta/cli"
-	"regexp"
-	"log"
 	"os"
 
 	"github.com/pavlo/heatit/commands"
@@ -62,7 +54,7 @@ func appCommands() []cli.Command {
 				},
 				cli.StringFlag{
 					Name: "params, p",
-					Value: "params.yaml",
+					Value: "",
 					Usage: "A flat YAML file (k/v) to take parameters from",
 				},
 			},
@@ -93,51 +85,37 @@ func appFlags() []cli.Flag {
 	}
 }
 
-func _main() {
+//func _main() {
+//
+//	var sourceFile 	= flag.String("source", "heat.yaml", "Path to the source YAML file")
+//	var paramsFile 	= flag.String("params-file", EMPTY, "A flat (key/value) YAML file with parameters to substitute @param:XXX directives with")
+//	var outFile 	= flag.String("out", "preheat-result.yaml", "Filename to save the resulting YAML to")
+//	flag.Parse()
+//
+//	data := parseYaml(*sourceFile)
+//	processDirectives(data)
+//
+//	bytes, err := yaml.Marshal(&data)
+//	if err != nil {
+//		panic(err)
+//	}
+//
+//	params := make(map[interface{}]interface{})
+//	if *paramsFile != EMPTY {
+//		params = parseYaml(*paramsFile)
+//	}
+//	bytes = processParams(string(bytes), params)
+//
+//	err = writeTextFile(*outFile, bytes)
+//	if err != nil {
+//		panic(err)
+//	}
+//
+//	fmt.Print(string(bytes))
+//}
 
-	var sourceFile 	= flag.String("source", "heat.yaml", "Path to the source YAML file")
-	var paramsFile 	= flag.String("params-file", EMPTY, "A flat (key/value) YAML file with parameters to substitute @param:XXX directives with")
-	var outFile 	= flag.String("out", "preheat-result.yaml", "Filename to save the resulting YAML to")
-	flag.Parse()
 
-	data := parseYaml(*sourceFile)
-	processDirectives(data)
-
-	bytes, err := yaml.Marshal(&data)
-	if err != nil {
-		panic(err)
-	}
-
-	params := make(map[interface{}]interface{})
-	if *paramsFile != EMPTY {
-		params = parseYaml(*paramsFile)
-	}
-	bytes = processParams(string(bytes), params)
-
-	err = writeTextFile(*outFile, bytes)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Print(string(bytes))
-}
-
-func parseYaml(path string) map[interface{}]interface{} {
-	var data map[interface{}]interface{}
-	source, err := ioutil.ReadFile(path)
-
-	if err != nil {
-		panic(err)
-	}
-
-	err = yaml.Unmarshal(source, &data)
-	if err != nil {
-		panic(err)
-	}
-
-	return data
-}
-
+/*
 func processDirectives(data map[interface{}]interface{}) error {
 	for k, v := range data {
 		switch v.(type) {
@@ -161,7 +139,10 @@ func processDirectives(data map[interface{}]interface{}) error {
 	}
 	return nil
 }
+*/
 
+
+/*
 func processParams(data string, params map[interface{}]interface{}) []byte {
 	var result bytes.Buffer
 
@@ -186,7 +167,10 @@ func processParams(data string, params map[interface{}]interface{}) []byte {
 
 	return result.Bytes()
 }
+*/
 
+
+/*
 func processInserts(content string) string {
 	var result bytes.Buffer
 
@@ -221,21 +205,23 @@ func processInserts(content string) string {
 
 	return result.String()
 }
+*/
 
-func extractArgumentFromDirective(directive string) string {
+
+/*func extractArgumentFromDirective(directive string) string {
 	segments := strings.Split(directive, DIRECTIVE_SEPARATOR)
 	return strings.TrimSpace(segments[1])
-}
+}*/
 
-func readTextFile(filename string) (string, error) {
+/*func readTextFile(filename string) (string, error) {
 	b, e := ioutil.ReadFile(filename)
 	return string(b), e
-}
+}*/
 
-func writeTextFile(filename string, content []byte) error {
+/*func writeTextFile(filename string, content []byte) error {
 	err := ioutil.WriteFile(filename, content, 0644)
 	if err != nil {
 		return err
 	}
 	return nil
-}
+}*/
