@@ -7,11 +7,16 @@ import (
 	"flag"
 	"fmt"
 	"gopkg.in/yaml.v2"
+	"github.com/codegangsta/cli"
 	"regexp"
 	"log"
+	"os"
+
+	"github.com/pavlo/heatit/commands"
 )
 
 const (
+	VERSION					= "0.0.1"
 	DIRECTIVE_INDICATOR 	= "@"
 	DIRECTIVE_SEPARATOR   	= ":"
 	IMPORT_DIRECTIVE 		= DIRECTIVE_INDICATOR + "import"
@@ -24,6 +29,71 @@ const (
 )
 
 func main() {
+	app := cli.NewApp()
+
+	app.Name = "heatit"
+	app.HelpName = app.Name
+	app.Version = VERSION
+
+	app.Usage = "A command line tool that simplifies HEAT templates authoring and processing"
+	app.Flags = appFlags()
+	app.Commands = appCommands()
+
+	app.Run(os.Args)
+}
+
+func appCommands() []cli.Command {
+	return []cli.Command{
+
+		cli.Command {
+			Name: "process",
+			Usage: "Processess a YAML template",
+			Action: commands.PerformTheProcessCommand,
+			Flags: []cli.Flag {
+				cli.StringFlag{
+					Name: "source, s",
+					Value: "heat.yaml",
+					Usage: "Source HEAT template to process",
+				},
+				cli.StringFlag{
+					Name: "destination, d",
+					Value: "result.yaml",
+					Usage: "Destination file where the resulting YAML will be saved",
+				},
+				cli.StringFlag{
+					Name: "params, p",
+					Value: "params.yaml",
+					Usage: "A flat YAML file (k/v) to take parameters from",
+				},
+			},
+		},
+		/*
+		cli.Command {
+			Name: "new",
+			Usage: "Creates a new Heatit project in the current directory",
+			Action: nil,
+		},
+		*/
+		/*
+		cli.Command {
+			Name: "generate",
+			Usage: "Generates an asset",
+			Action: nil,
+		},
+		*/
+	}
+}
+
+func appFlags() []cli.Flag {
+	return []cli.Flag{
+		cli.BoolFlag{
+			Name: "verbose",
+			Usage: "show more output",
+		},
+	}
+}
+
+func _main() {
 
 	var sourceFile 	= flag.String("source", "heat.yaml", "Path to the source YAML file")
 	var paramsFile 	= flag.String("params-file", EMPTY, "A flat (key/value) YAML file with parameters to substitute @param:XXX directives with")
