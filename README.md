@@ -47,14 +47,14 @@ resources:
               user_data_format: RAW
               config_drive: "true"
               user_data: |
-                @insert: "file:assets/userdata/coreos.txt" <= inserts the value of assets/userdata/coreos.txt here
+                @insert: "file:assets/userdata/coreos.txt" <= inserts assets/userdata/coreos.txt here
 outputs:
   ...
 ```
 
-`heatit` will process the `heat.yaml` and:
+`heatit` will process the `heat.yaml` in the root of the project and:
 
- 1. Insert the the content of `assets/flavors.yaml` and `assets/userdata/coreos.txt` in place of corresponding `@insert` directives.
+ 1. Insert the content of `assets/flavors.yaml` and `assets/userdata/coreos.txt` in place of corresponding `@insert` directives.
  2. Insert parameter values (read from `params.yaml` file in the project root directory) in place of `@param` directive.
 
-Using the similar technique, `heatit` can be used to produce a fully featured HEAT template with SSH keys, systemd/fleed units, networks, security groups while keeping everything modular in a highly reusable manner.
+Using the similar technique, `heatit` can be used to produce a fully featured HEAT template with SSH keys, systemd/fleet units, networks, security groups while keeping everything modular in a highly reusable manner.
