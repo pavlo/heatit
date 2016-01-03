@@ -68,7 +68,6 @@ func processRecursiveInserts(data string, indent int) (string, error) {
 		}
 
 		if strings.Index(cleanLine, directives.INSERT_DIRECTIVE) == 0 {
-
 			insertion, err := directives.NewInsertDirective(line)
 
 			if err != nil {

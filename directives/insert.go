@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const INSERT_DIRECTIVE = DIRECTIVE_INDICATOR + "insert" + DIRECTIVE_SEPARATOR
+const INSERT_DIRECTIVE = DIRECTIVE_INDICATOR + "insert"
 
 type InsertDirective struct {
 	SourceType  string

@@ -11,7 +11,7 @@ resources:
   servers:
     type: OS::Heat::ResourceGroup
     properties:
-      count: 1
+      count: "@param:servers-count"
       resource_def:
         type: "OS::Nova::Server"
         properties:
