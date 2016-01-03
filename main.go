@@ -8,16 +8,17 @@ import (
 )
 
 const (
-	VERSION             = "0.0.1"
-	DIRECTIVE_INDICATOR = "@"
-	DIRECTIVE_SEPARATOR = ":"
-	IMPORT_DIRECTIVE    = DIRECTIVE_INDICATOR + "import"
-	INSERT_DIRECTIVE    = DIRECTIVE_INDICATOR + "insert"
-	PARAM_DIRECTIVE     = DIRECTIVE_INDICATOR + "param"
-	NEW_LINE            = "\n"
+	VERSION = "0.0.1"
 
-	SPACE = " "
-	EMPTY = ""
+//	DIRECTIVE_INDICATOR = "@"
+//	DIRECTIVE_SEPARATOR = ":"
+//	IMPORT_DIRECTIVE    = DIRECTIVE_INDICATOR + "import"
+//	INSERT_DIRECTIVE    = DIRECTIVE_INDICATOR + "insert"
+//	PARAM_DIRECTIVE     = DIRECTIVE_INDICATOR + "param"
+//	NEW_LINE            = "\n"
+//
+//	SPACE = " "
+//	EMPTY = ""
 )
 
 func main() {
@@ -37,28 +38,8 @@ func main() {
 func appCommands() []cli.Command {
 	return []cli.Command{
 
-		cli.Command{
-			Name:   "process",
-			Usage:  "Processess a YAML template",
-			Action: commands.PerformTheProcessCommand,
-			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name:  "source, s",
-					Value: "heat.yaml",
-					Usage: "Source HEAT template to process",
-				},
-				cli.StringFlag{
-					Name:  "destination, d",
-					Value: "result.yaml",
-					Usage: "Destination file where the resulting YAML will be saved",
-				},
-				cli.StringFlag{
-					Name:  "params, p",
-					Value: "",
-					Usage: "A flat YAML file (k/v) to take parameters from",
-				},
-			},
-		},
+		commands.GetProcessCommand(),
+
 		/*
 			cli.Command {
 				Name: "new",

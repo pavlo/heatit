@@ -1,0 +1,6 @@
+constraints:
+  - allowed_values:
+    - 512MB Standard Instance
+    - 2 GB Performance
+    - 4 GB Performance
+    - 8 GB Performance

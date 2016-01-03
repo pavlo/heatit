@@ -1,0 +1,17 @@
+heat_template_version: 2014-10-16
+parameters:
+  flavor:
+    type: string
+    default: 1GB Standard Instance
+    options:
+      constraints:
+        - allowed_values:
+          - 512MB Standard Instance
+          - 2 GB Performance
+          - 4 GB Performance
+          - 8 GB Performance
+  ssh_key_name:
+    type: string
+    label: SSH Key name
+    description: User name to be configured for the application
+    default: pavlo

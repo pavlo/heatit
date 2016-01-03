@@ -5,8 +5,6 @@ import (
 	"github.com/pavlo/heatit/utils"
 )
 
-const EMPTY = ""
-
 const (
 	TypeSimple int = 0
 )

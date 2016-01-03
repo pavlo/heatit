@@ -1,0 +1,29 @@
+heat_template_version: 2014-10-16
+parameters:
+  flavor:
+    @insert: "file:../fixtures/engine/complete/flavors.yaml"
+  ssh_key_name:
+    type: string
+    label: SSH Key name
+    description: User name to be configured for the application
+    default: pavlo
+resources:
+  servers:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: 1
+      resource_def:
+        type: "OS::Nova::Server"
+        properties:
+          name: coreos-%index%
+          key_name: { get_param: ssh_key_name }
+          flavor: { get_param: flavor }
+          image: "44aff7ff-29f3-443d-8da8-9353d47b4b17"
+          networks:
+            - { uuid: 00000000-0000-0000-0000-000000000000 }
+            - { uuid: 11111111-1111-1111-1111-111111111111 }
+            - { uuid: "@param:private-network-uuid" }
+          user_data_format: "RAW"
+          config_drive: "true"
+          user_data: |
+            @insert : "file:../fixtures/engine/complete/userdata.txt"

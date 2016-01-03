@@ -20,3 +20,8 @@ func ParseYamlFile(path string) (map[interface{}]interface{}, error) {
 
 	return data, nil
 }
+
+func ReadTextFile(filename string) (string, error) {
+	b, e := ioutil.ReadFile(filename)
+	return string(b), e
+}

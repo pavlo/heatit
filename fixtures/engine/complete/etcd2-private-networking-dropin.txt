@@ -1,0 +1,7 @@
+- name: "private-networking.conf"
+  content: |
+    [Unit]
+    Requires=etcd-env-generator.service
+    After=etcd-env-generator.service
+    [Service]
+    EnvironmentFile=/etc/etcd2-environment
