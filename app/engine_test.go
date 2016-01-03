@@ -6,24 +6,15 @@ import (
 	"testing"
 )
 
-func TestEngineSimpleInsertion(t *testing.T) {
+func TestEngineProcessInsertsSimpleInsertion(t *testing.T) {
+	data := readFixture(t, "../fixtures/engine/simple_insertion/a.yaml")
 
-	e := engine(
-		"../fixtures/engine/simple_insertion/a.yaml",
-		"",
-		"",
-	)
-
-	content, err := e.processInserts()
+	content, err := processInserts(data, 0)
 	if err != nil {
 		t.Fatal("Failed to process inserts!")
 	}
 
-	expectedContent, err := utils.ReadTextFile("../fixtures/engine/simple_insertion/result.yaml")
-	if err != nil {
-		t.Error("Failed to load results YAML file!")
-	}
-
+	expectedContent := readFixture(t, "../fixtures/engine/simple_insertion/result.yaml")
 	if content != expectedContent {
 		t.Log("Failed to compare results!")
 		t.Logf("Expected: \n[%v]\n", expectedContent)
@@ -33,24 +24,15 @@ func TestEngineSimpleInsertion(t *testing.T) {
 
 }
 
-func TestEngineRecursiveInsertion(t *testing.T) {
+func TestEngineProcessInsertsRecursiveInsertion(t *testing.T) {
+	data := readFixture(t, "../fixtures/engine/recursive_insertion/a.yaml")
 
-	e := engine(
-		"../fixtures/engine/recursive_insertion/a.yaml",
-		"",
-		"",
-	)
-
-	content, err := e.processInserts()
+	content, err := processInserts(data, 0)
 	if err != nil {
 		t.Fatal("Failed to process inserts!")
 	}
 
-	expectedContent, err := utils.ReadTextFile("../fixtures/engine/recursive_insertion/result.yaml")
-	if err != nil {
-		t.Error("Failed to load results YAML file!")
-	}
-
+	expectedContent := readFixture(t, "../fixtures/engine/recursive_insertion/result.yaml")
 	if strings.TrimSpace(content) != strings.TrimSpace(expectedContent) {
 		t.Log("Failed to compare results!")
 		t.Logf("Expected: \n[%v]\n", expectedContent)
@@ -60,24 +42,15 @@ func TestEngineRecursiveInsertion(t *testing.T) {
 
 }
 
-func TestEngineComplete(t *testing.T) {
+func TestEngineProcessInsertsComplete(t *testing.T) {
+	data := readFixture(t, "../fixtures/engine/complete/heat.yaml")
 
-	e := engine(
-		"../fixtures/engine/complete/heat.yaml",
-		"",
-		"",
-	)
-
-	content, err := e.processInserts()
+	content, err := processInserts(data, 0)
 	if err != nil {
 		t.Fatal("Failed to process inserts!")
 	}
 
-	expectedContent, err := utils.ReadTextFile("../fixtures/engine/complete/result.yaml")
-	if err != nil {
-		t.Error("Failed to load results YAML file!")
-	}
-
+	expectedContent := readFixture(t, "../fixtures/engine/complete/result.yaml")
 	if strings.TrimSpace(content) != strings.TrimSpace(expectedContent) {
 		t.Log("Failed to compare results!")
 		t.Logf("Expected: \n[%v]\n", expectedContent)
@@ -85,4 +58,13 @@ func TestEngineComplete(t *testing.T) {
 		t.Fail()
 	}
 
+}
+
+func readFixture(t *testing.T, path string) string {
+	result, err := utils.ReadTextFile(path)
+	if err != nil {
+		t.Fatalf("Failed to read fixture file: %s", path)
+	}
+
+	return result
 }
