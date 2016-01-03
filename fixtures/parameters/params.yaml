@@ -3,3 +3,4 @@ network-interface: eth2
 coreos-token: 954398c993934acf5aedd1315a42d15d
 ssh-key: pavlo
 server-name: coreos
+int-value: 3.4

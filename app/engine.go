@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/pavlo/heatit/directives"
+	"gopkg.in/yaml.v2"
 	"regexp"
 )
 
@@ -39,22 +40,38 @@ func engine(source string, destination string, params string) *Engine {
 	return &performer
 }
 
-func (p *Engine) Process() error {
+func (engine *Engine) Process() {
 
-	data, err := utils.ReadTextFile(p.sourceFile)
+	data, err := utils.ReadTextFile(engine.sourceFile)
 	if err != nil {
-		return err
+		log.Fatalf("Can not read source YAML! %v\n%s", err, engine.sourceFile)
 	}
 
 	data, err = processInserts(data, 0)
 	if err != nil {
-		return err
+		log.Fatalf("Can to process inserts! %v\n%s", err, data)
 	}
 
-	data, err = processParams(data, p.params)
+	data, err = processParams(data, engine.params)
+	if err != nil {
+		log.Fatalf("Can to process params! %v\n%s", err, data)
+	}
 
-	log.Printf("%+v", p)
-	return nil
+	var tmp map[interface{}]interface{}
+	err = yaml.Unmarshal([]byte(data), &tmp)
+	if err != nil {
+		log.Fatalf("Failed to unmashal the result to YAML! %v\n%s", err, data)
+	}
+
+	bytes, err := yaml.Marshal(tmp)
+	if err != nil {
+		log.Fatalf("Failed to marshal the result to YAML! %v", err)
+	}
+
+	err = utils.WriteTextFile(engine.destinationFile, bytes)
+	if err != nil {
+		log.Fatalf("Failed to save the result to %s,", engine.destinationFile)
+	}
 }
 
 func processInserts(data string, indent int) (string, error) {

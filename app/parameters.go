@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"fmt"
 	"github.com/pavlo/heatit/utils"
 )
 
@@ -36,7 +37,7 @@ func NewParameters(yamlFilename string) (*Parameters, error) {
 
 	for k, v := range data {
 		key := k.(string)
-		value := v.(string)
+		value := fmt.Sprintf("%v", v)
 
 		result.data[key] = Param{
 			name:      key,

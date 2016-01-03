@@ -13,7 +13,7 @@ func TestNewParameters(t *testing.T) {
 		t.Errorf("Failed to create an instance of Parameters!")
 	}
 
-	if len(p.data) != 5 {
+	if len(p.data) != 6 {
 		t.Errorf("Wrong number of parameters!")
 	}
 

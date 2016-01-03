@@ -5,6 +5,11 @@ import (
 	"github.com/pavlo/heatit/app"
 )
 
+func perform(c *cli.Context) {
+	engine := app.NewEngine(c)
+	engine.Process()
+}
+
 func GetProcessCommand() cli.Command {
 	return cli.Command{
 		Name:   "process",
@@ -27,13 +32,5 @@ func GetProcessCommand() cli.Command {
 				Usage: "A flat YAML file (k/v) to take parameters from",
 			},
 		},
-	}
-}
-
-func perform(c *cli.Context) {
-	engine := app.NewEngine(c)
-	err := engine.Process()
-	if err != nil {
-
 	}
 }

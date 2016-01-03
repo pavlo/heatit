@@ -25,3 +25,11 @@ func ReadTextFile(filename string) (string, error) {
 	b, e := ioutil.ReadFile(filename)
 	return string(b), e
 }
+
+func WriteTextFile(filename string, content []byte) error {
+	err := ioutil.WriteFile(filename, content, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
