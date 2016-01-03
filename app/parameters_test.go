@@ -15,9 +15,9 @@ func TestNewParameters(t *testing.T) {
 		t.Errorf("Wrong number of parameters!")
 	}
 
-	assertCorrectValues(p, "private-network-uuid", "00497c93-978b-4ec8-b3f2-7fd0ea738ef4", TypeSimple, t)
-	assertCorrectValues(p, "network-interface", "eth2", TypeSimple, t)
-	assertCorrectValues(p, "coreos-token", "954398c993934acf5aedd1315a42d15d", TypeSimple, t)
+	assertParam(p, "private-network-uuid", "00497c93-978b-4ec8-b3f2-7fd0ea738ef4", TypeSimple, t)
+	assertParam(p, "network-interface", "eth2", TypeSimple, t)
+	assertParam(p, "coreos-token", "954398c993934acf5aedd1315a42d15d", TypeSimple, t)
 }
 
 func TestNewParametersNoYamlFile(t *testing.T) {
@@ -61,8 +61,11 @@ func TestGetNonExistentValue(t *testing.T) {
 	}
 }
 
-func assertCorrectValues(params *Parameters, name string, value string, paramType int, t *testing.T) {
+func assertParam(params *Parameters, name string, value string, paramType int, t *testing.T) {
 	p := params.data[name]
+	if !p.resolved {
+		t.Errorf("%s.resolved is wrong!", name)
+	}
 	if p.name != name {
 		t.Errorf("%s.name is wrong!", name)
 	}

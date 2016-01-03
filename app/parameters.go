@@ -19,6 +19,7 @@ type Param struct {
 	name      string
 	value     string
 	paramType int
+	resolved  bool
 }
 
 func NewParameters(yamlFilename string) (*Parameters, error) {
@@ -43,6 +44,7 @@ func NewParameters(yamlFilename string) (*Parameters, error) {
 			name:      key,
 			value:     value,
 			paramType: TypeSimple,
+			resolved:  true,
 		}
 	}
 
