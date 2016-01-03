@@ -44,31 +44,19 @@ func TestProcessParams(t *testing.T) {
 	}
 
 	expected := readFixture(t, "../fixtures/parameters/result.yaml")
-
-	if strings.TrimSpace(actual) != strings.TrimSpace(expected) {
-		t.Log("Failed to compare results!")
-		t.Logf("Expected: \n[%v]\n", expected)
-		t.Logf("Actual: \n[%v]\n", actual)
-		t.Fail()
-	}
-
+	assertStringsEqual(t, expected, actual)
 }
 
 func assertInserts(t *testing.T, sourceFile string, expectedResultFile string) {
 	data := readFixture(t, sourceFile)
 
-	content, err := processInserts(data, 0)
+	actual, err := processInserts(data, 0)
 	if err != nil {
 		t.Fatal("Failed to process inserts!")
 	}
 
-	expectedContent := readFixture(t, expectedResultFile)
-	if strings.TrimSpace(content) != strings.TrimSpace(expectedContent) {
-		t.Log("Failed to compare results!")
-		t.Logf("Expected: \n[%v]\n", expectedContent)
-		t.Logf("Actual: \n[%v]\n", content)
-		t.Fail()
-	}
+	expected := readFixture(t, expectedResultFile)
+	assertStringsEqual(t, expected, actual)
 }
 
 func readFixture(t *testing.T, path string) string {
@@ -78,4 +66,13 @@ func readFixture(t *testing.T, path string) string {
 	}
 
 	return result
+}
+
+func assertStringsEqual(t *testing.T, expected, actual string) {
+	if strings.TrimSpace(actual) != strings.TrimSpace(expected) {
+		t.Log("Failed to compare strings!")
+		t.Logf("Expected: \n[%v]\n", expected)
+		t.Logf("Actual: \n[%v]\n", actual)
+		t.Fail()
+	}
 }
