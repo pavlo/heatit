@@ -1,3 +1,5 @@
 private-network-uuid: 00497c93-978b-4ec8-b3f2-7fd0ea738ef4
 network-interface: eth2
 coreos-token: 954398c993934acf5aedd1315a42d15d
+ssh-key: pavlo
+server-name: coreos

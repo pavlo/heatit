@@ -1,0 +1,19 @@
+heat_template_version: 2014-10-16
+parameters:
+  ssh_key_name:
+    type: string
+    label: SSH Key name
+    description: User name to be configured for the application
+    default: "@param:ssh-key"
+resources:
+  servers:
+    type: "OS::Nova::Server"
+    properties:
+      name: "@param:server-name"
+      key_name: { get_param: ssh_key_name }
+      flavor: { get_param: flavor }
+      image: "44aff7ff-29f3-443d-8da8-9353d47b4b17"
+      networks:
+        - { uuid: 00000000-0000-0000-0000-000000000000 }
+        - { uuid: 11111111-1111-1111-1111-111111111111 }
+        - { uuid: "@param:private-network-uuid" }

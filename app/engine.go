@@ -7,7 +7,9 @@ import (
 	"strings"
 
 	"bytes"
+	"fmt"
 	"github.com/pavlo/heatit/directives"
+	"regexp"
 )
 
 type Engine struct {
@@ -49,6 +51,8 @@ func (p *Engine) Process() error {
 		return err
 	}
 
+	data, err = processParams(data, p.params)
+
 	log.Printf("%+v", p)
 	return nil
 }
@@ -74,6 +78,39 @@ func processInserts(data string, indent int) (string, error) {
 			result.WriteString(line)
 			result.WriteString(NEW_LINE)
 		}
+	}
+
+	return result.String(), nil
+}
+
+func processParams(data string, params *Parameters) (string, error) {
+	var result bytes.Buffer
+
+	reg, _ := regexp.Compile(fmt.Sprintf("(%s%s[a-z-]*)", directives.PARAM_DIRECTIVE, directives.DIRECTIVE_SEPARATOR))
+	lines := strings.Split(data, NEW_LINE)
+
+	for _, line := range lines {
+		matches := reg.FindAllString(line, -1)
+		if matches != nil {
+			for _, m := range matches {
+
+				directive, err := directives.NewParamDirective(m)
+				if err != nil {
+					log.Printf("Invalid @param directive format: ", m)
+					return EMPTY, err
+				}
+
+				value, err := params.getValue(directive.Name)
+				if err != nil {
+					log.Printf("Got a param: '%s', but had no value to replace it with.", m)
+					return EMPTY, err
+
+				}
+				line = strings.Replace(line, m, value, -1)
+			}
+		}
+		result.WriteString(line)
+		result.WriteString(NEW_LINE)
 	}
 
 	return result.String(), nil
