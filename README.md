@@ -3,6 +3,10 @@ A command line tool that simplifies HEAT templates authoring and processing.
 
 [![Build Status](https://travis-ci.org/pavlo/heatit.svg?branch=master)](https://travis-ci.org/pavlo/heatit)
 
+```sh
+$ heatit process --source=heat.yaml --params=params.yaml --destination=result.yaml
+```
+
 ## The problem 'heatit' solves
 
 Heat Orchestration Template (HOT) is a template format used by [Openstack](https://www.openstack.org) Orchestration engine to launch cloud infrastructure composed of servers, networks, users, security groups and others. Usually we end up with a huge template file which is not very comfortable to maintain as a whole, it leads to constant copy/paste cycles and issues related it. 
@@ -67,7 +71,11 @@ Using the similar technique, `heatit` can be used to produce a fully featured HE
 
 When you launch `heatit`, it reads the source file line by line and seeks for specific marks in each line. Those marks are called directives and have special syntax. Upon encountering a directive, `heatit` processes it. The action it actually does depends on directive type that are described in details below.
 
-Directives are processed recursively, this means that assets can have directives in it as well.
+`heatit` currently supports two directives - `@insert` and `@param`. The first one is used to insert contents of assets (files and potentially URLs) into the target file while the second one allows to replace pieces with pre-defined values, called parameters.
+
+`heatit` first processes all `@insert` directives recursively and compiles the result. After that the result is seeked for `@param` directives and they get replaced with parameters given in the `--params=foo.yaml` argument.
+
+Detailed documentation for the two directives can be found below.
 
 ### The @insert directive
 
