@@ -87,7 +87,7 @@ This directive prescribes `heatit` to insert specific content in place of the cu
 
 So, the directive begins with `@insert:` mark, followed by `file:` suffix that prescribes `heatit` to read the contents of the following file `/file/whose/content/to/insert/here.txt` and replace the current line with its content.
 
-##### Example of placing @insert into a YAML file
+#### Example of placing @insert into a YAML file
 
 The `@insert` directive can be placed in an `YAML` without breaking the format so you keep the ability to use a YAML editor and validator:
 
@@ -151,7 +151,7 @@ resources:
 
 ```
 
-##### Example of placing @insert into a NON YAML file
+#### Example of placing @insert into a NON YAML file
 
 You are not limited using YAML files only. You may want to create plain text assets to configure `systemd` units, `userdata`, firewall rules etc. The `@insert` directive however looks basically the same -
  
