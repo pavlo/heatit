@@ -14,6 +14,9 @@ import (
 	"regexp"
 )
 
+var paramDirectiveRegexp, _ = regexp.Compile(fmt.Sprintf("(%s%s[a-z-]*)",
+	directives.PARAM_DIRECTIVE, directives.DIRECTIVE_SEPARATOR))
+
 type Engine struct {
 	params          *Parameters
 	sourceFile      string
@@ -105,11 +108,9 @@ func processInserts(data string, indent int) (string, error) {
 func processParams(data string, params *Parameters) (string, error) {
 	var result bytes.Buffer
 
-	reg, _ := regexp.Compile(fmt.Sprintf("(%s%s[a-z-]*)", directives.PARAM_DIRECTIVE, directives.DIRECTIVE_SEPARATOR))
 	lines := strings.Split(data, NEW_LINE)
-
 	for _, line := range lines {
-		matches := reg.FindAllString(line, -1)
+		matches := paramDirectiveRegexp.FindAllString(line, -1)
 		if matches != nil {
 			for _, m := range matches {
 
