@@ -75,9 +75,9 @@ Directives are processed recursively, this means that assets can have directives
 
 This directive prescribes `heatit` to insert specific content in place of the current line in the source file. The basic syntax of this directive is like follows:
  
-`@insert: file:/file/whose/content/to/insert.here.txt`
+`@insert: file:/file/whose/content/to/insert/here.txt`
 
-So, the directive begins with `@insert:` mark, followed by `file:` suffix that prescribes `heatit` to read the contents of the following file `/file/whose/content/to/insert.here.txt` and replace the current line with the content.
+So, the directive begins with `@insert:` mark, followed by `file:` suffix that prescribes `heatit` to read the contents of the following file `/file/whose/content/to/insert/here.txt` and replace the current line with its content.
 
 ##### Example of placing @insert into a YAML file
 
@@ -96,7 +96,7 @@ resources:
 
 The `YAML` above has two `@insert` directives, the first one inserts a list of flavour from `assets/rackspace/flavors.yaml` file:
 
-```yaml (assets/rackspace/flavors.yaml)
+```yaml
 
 type: string
 default: 1GB Standard Instance
