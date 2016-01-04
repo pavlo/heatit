@@ -32,6 +32,7 @@ Heat Orchestration Template (HOT) is a template format used by [Openstack](https
 So, there's `heat.yaml` file in the root of the project directory. Pay attention to `@insert` and `@param` directives inline:
 
 ```yaml
+
 heat_template_version: 2014-10-16
 parameters:
   flavor:
@@ -52,6 +53,7 @@ resources:
                 @insert: "file:assets/userdata/coreos.txt" <= inserts assets/userdata/coreos.txt here
 outputs:
   ...
+  
 ```
 
 `heatit` will process the `heat.yaml` in the root of the project and:
@@ -60,3 +62,121 @@ outputs:
  2. Insert parameter values (read from `params.yaml` file in the project root directory) in place of `@param` directive.
 
 Using the similar technique, `heatit` can be used to produce a fully featured HEAT template with SSH keys, systemd/fleet units, networks, security groups while keeping everything modular in a highly reusable manner.
+
+## Directives
+
+When you launch `heatit`, it reads the source file line by line and seeks for specific marks in each line. Those marks are called directives and have special syntax. Upon encountering a directive, `heatit` processes it. The action it actually does depends on directive type that are described in details below.
+
+Directives are processed recursively, this means that assets can have directives in it as well.
+
+### The @insert directive
+
+#### Purpose 
+
+This directive prescribes `heatit` to insert specific content in place of the current line in the source file. The basic syntax of this directive is like follows:
+ 
+`@insert: file:/file/whose/content/to/insert.here.txt`
+
+So, the directive begins with `@insert:` mark, followed by `file:` suffix that prescribes `heatit` to read the contents of the following file `/file/whose/content/to/insert.here.txt` and replace the current line with the content.
+
+##### Example of placing @insert into a YAML file
+
+The `@insert` directive can be placed in an `YAML` without breaking the format so you keep the ability to use a YAML editor and validator:
+
+```yaml
+
+heat_template_version: 2014-10-16
+parameters:
+  flavor:
+    @insert: "file:assets/rackspace/flavors.yaml"
+resources:
+  @insert: "file:assets/rackspace/cloud-files-contaier.yaml"
+      
+```
+
+The `YAML` above has two `@insert` directives, the first one inserts a list of flavour from `assets/rackspace/flavors.yaml` file:
+
+```yaml (assets/rackspace/flavors.yaml)
+
+type: string
+default: 1GB Standard Instance
+constraints:
+- allowed_values:
+  - 512MB Standard Instance
+  - 2 GB Performance
+  - 4 GB Performance
+  - 8 GB Performance
+
+```
+
+and `assets/rackspace/cloud-files-contaier.yaml` under `resources` section:
+
+```yaml
+
+cloud-files-container:
+  type: OS::Swift::Container
+  properties:
+    name: { get_param: "OS::stack_name" }
+
+```
+
+so, after `heatit` processing, the resulting YAML file will look like follows:
+
+```yaml
+
+heat_template_version: 2014-10-16
+parameters:
+  flavor:
+    type: string
+    default: 1GB Standard Instance
+    constraints:
+    - allowed_values:
+      - 512MB Standard Instance
+      - 2 GB Performance
+      - 4 GB Performance
+      - 8 GB Performance
+resources:
+  cloud-files-container:
+    type: OS::Swift::Container
+    properties:
+      name: { get_param: "OS::stack_name" }
+
+```
+
+##### Example of placing @insert into a NON YAML file
+
+You are not limited using YAML files only. You may want to create plain text assets t oconfigure `systemd` units, `userdata`, firewall rules etc. The `@insert` directive however looks basically the same -
+ 
+```txt
+
+[Unit]
+Requires=network.target
+After=network.target
+[Service]
+ExecStart=/opt/bin/etcd-env-generator.sh @param:network-interface @param:coreos-token
+@insert: file:assets/fleet/chicago
+
+```
+
+So if `assets/fleet/chicago` consists of this:
+
+```txt
+[X-Fleet]
+MachineMetadata=location=chicago
+Conflicts=monitor*
+```
+
+Then the result `heatit` compiles would be so:
+
+```txt
+[Unit]
+Requires=network.target
+After=network.target
+[Service]
+ExecStart=/opt/bin/etcd-env-generator.sh @param:network-interface @param:coreos-token
+[X-Fleet]
+MachineMetadata=location=chicago
+Conflicts=monitor*
+```
+
+Again, the assets can have other directives so the work gets done in a recursive manner.
