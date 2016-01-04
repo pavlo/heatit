@@ -94,7 +94,7 @@ resources:
       
 ```
 
-The `YAML` above has two `@insert` directives, the first one inserts a list of flavour from `assets/rackspace/flavors.yaml` file:
+The `YAML` above has two `@insert` directives, the first one inserts a list of flavours from `assets/rackspace/flavors.yaml` file:
 
 ```yaml
 
@@ -145,7 +145,7 @@ resources:
 
 ##### Example of placing @insert into a NON YAML file
 
-You are not limited using YAML files only. You may want to create plain text assets t oconfigure `systemd` units, `userdata`, firewall rules etc. The `@insert` directive however looks basically the same -
+You are not limited using YAML files only. You may want to create plain text assets to configure `systemd` units, `userdata`, firewall rules etc. The `@insert` directive however looks basically the same -
  
 ```txt
 
