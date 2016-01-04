@@ -195,7 +195,14 @@ Again, the assets can have other directives so the work gets done in a recursive
 
 This directive allows you to parametrize your assets. This is very similar to `{ get_param foo }` used in HEAT so there are chances you prefer the latter. `heatit's` `@param` however is useful if you need to inject some stuff into your assets at "compile" time versus at "runtime" so to speak.
 
-Currently parameter values are read from a flat YAML file you passed a reference to with `--params` command line argument. Here's an example of such file:
+
+#### Example
+
+Currently parameter values are read from a flat YAML file you passed a reference to with `--params` command line argument. So, for instance if you called it like this:
+
+`heatit process --source=heat.yaml --params=params.yaml --destination=result.yaml`
+
+And `params.yaml` contents are:
 
 ```yaml
 network-interface: "eth2"
