@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"github.com/pavlo/heatit/directives"
 	"gopkg.in/yaml.v2"
+	"os"
 	"regexp"
 )
 
@@ -60,7 +61,8 @@ func (engine *Engine) Process() {
 	var tmp map[interface{}]interface{}
 	err = yaml.Unmarshal([]byte(data), &tmp)
 	if err != nil {
-		log.Fatalf("Failed to unmashal the result to YAML! %v\n%s", err, data)
+		utils.DescribeUnmarshalError(data, err)
+		os.Exit(1)
 	}
 
 	bytes, err := yaml.Marshal(tmp)
