@@ -9,7 +9,7 @@ $ heatit process --source=heat.yaml --params=params.yaml --destination=result.ya
 
 ## The problem 'heatit' solves
 
-Heat Orchestration Template (HOT) is a template format used by [Openstack](https://www.openstack.org) Orchestration engine to launch cloud infrastructure composed of servers, networks, users, security groups and others. Usually we end up with a huge template file which is not very comfortable to maintain as a whole, it leads to constant copy/paste cycles and issues related it. 
+Heat Orchestration Template (HOT) is a template format used by [Openstack](https://www.openstack.org) Orchestration engine to launch cloud infrastructure composed of servers, networks, users, security groups and others. Usually we end up with a huge template file which is not very comfortable to maintain as a whole, it leads to constant copy/paste cycles and other issues related them. 
 
 `heatit` is a tool that allows you to compile a HEAT template using reusable pieces called `assets`. Consider the following project directory layout:
 
@@ -54,7 +54,7 @@ resources:
               user_data_format: RAW
               config_drive: "true"
               user_data: |
-                @insert: "file:assets/userdata/coreos.txt" <= inserts assets/userdata/coreos.txt here
+                @insert: "file:assets/userdata/coreos.txt" <= inserts assets/userdata/coreos.txt
 outputs:
   ...
   
@@ -71,9 +71,9 @@ Using the similar technique, `heatit` can be used to produce a fully featured HE
 
 When you launch `heatit`, it reads the source file line by line and seeks for specific marks in each line. Those marks are called directives and have special syntax. Upon encountering a directive, `heatit` processes it. The action it actually does depends on directive type that are described in details below.
 
-`heatit` currently supports two directives - `@insert` and `@param`. The first one is used to insert contents of assets (files and potentially URLs) into the target file while the second one allows to replace pieces with pre-defined values, called parameters.
+`heatit` currently supports two directives - `@insert` and `@param`. The first one is used to insert contents of an asset (a file or potentially URLs) into the target file while the second one allows to replace pieces with pre-defined values, called parameters.
 
-`heatit` first processes all `@insert` directives recursively and compiles the result. After that the result is seeked for `@param` directives and they get replaced with parameters given in the `--params=foo.yaml` argument.
+`heatit` first processes all `@insert` directives recursively and compiles the result. After that the result is scanned for `@param` directives and they get replaced with parameter values given in the `--params=foo.yaml` argument.
 
 Detailed documentation for the two directives can be found below.
 
@@ -188,3 +188,37 @@ Conflicts=monitor*
 ```
 
 Again, the assets can have other directives so the work gets done in a recursive manner.
+
+### The @param directive
+
+#### Purpose 
+
+This directive allows you to parametrize your assets. This is very similar to `{ get_param foo }` used in HEAT so there are chances you prefer the latter. `heatit's` `@param` however is useful if you need to inject some stuff into your assets at "compile" time versus at "runtime" so to speak.
+
+Currently parameter values are read from a flat YAML file you passed a reference to with `--params` command line argument. Here's an example of such file:
+
+```yaml
+network-interface: "eth2"
+coreos-cluster-token: "550e8400-e29b-41d4-a716-446655440000"
+```
+
+Then in an asset you can prescribe `heatit` to replace the variables with actual values:
+
+```txt
+[Service]
+...
+ExecStart=/opt/bin/etcd-env-generator.sh -n @param:network-interface -t @param:coreos-cluster-token
+
+```
+
+`heatit` will result with this:
+
+```
+[Service]
+...
+ExecStart=/opt/bin/etcd-env-generator.sh -n eth2 -t 550e8400-e29b-41d4-a716-446655440000
+```
+
+## License
+
+`heatit` is released under the [MIT License](http://www.opensource.org/licenses/MIT).
