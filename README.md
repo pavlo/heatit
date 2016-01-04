@@ -1,7 +1,7 @@
 # heatit
 A command line tool that simplifies HEAT templates authoring and processing.
 
-Build status: [![Build Status](https://travis-ci.org/pavlo/heatit.svg?branch=master)](https://travis-ci.org/pavlo/heatit)
+[![Build Status](https://travis-ci.org/pavlo/heatit.svg?branch=master)](https://travis-ci.org/pavlo/heatit)
 
 ## The problem 'heatit' solves
 
