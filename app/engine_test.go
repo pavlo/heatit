@@ -30,8 +30,24 @@ func TestEngineProcessInsertsComplete(t *testing.T) {
 	)
 }
 
-func TestProcessParams(t *testing.T) {
-	data := readFixture(t, "../fixtures/parameters/heat.yaml")
+func TestProcessYamlParams(t *testing.T) {
+	assertParams(
+		t,
+		"../fixtures/parameters/yaml/heat.yaml",
+		"../fixtures/parameters/yaml/result.yaml",
+	)
+}
+
+func TestProcessTextParams2(t *testing.T) {
+	assertParams(
+		t,
+		"../fixtures/parameters/text/source.txt",
+		"../fixtures/parameters/text/result.txt",
+	)
+}
+
+func assertParams(t *testing.T, sourceFile string, expectedResultFile string) {
+	data := readFixture(t, sourceFile)
 	p, err := NewParameters("../fixtures/parameters/params.yaml")
 
 	if err != nil {
@@ -43,7 +59,7 @@ func TestProcessParams(t *testing.T) {
 		t.Fatalf("Failed to process parameters")
 	}
 
-	expected := readFixture(t, "../fixtures/parameters/result.yaml")
+	expected := readFixture(t, expectedResultFile)
 	assertStringsEqual(t, expected, actual)
 }
 
