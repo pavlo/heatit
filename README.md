@@ -189,6 +189,12 @@ Conflicts=monitor*
 
 Again, the assets can have other directives so the work gets done in a recursive manner.
 
+#### Status
+
+`@insert` directive supports these:
+  1. COMPLETE: Get stuff from an asset file: `@insert:file:<path>`
+  2. TO BE DONE: Get stuff from URL: `@insert:url:http://google.com`
+
 ### The @param directive
 
 #### Purpose 
@@ -225,6 +231,16 @@ ExecStart=/opt/bin/etcd-env-generator.sh -n @param:network-interface -t @param:c
 ...
 ExecStart=/opt/bin/etcd-env-generator.sh -n eth2 -t 550e8400-e29b-41d4-a716-446655440000
 ```
+
+#### Status
+
+`@param` directive supports these:
+
+  1. COMPLETE: Get values from a YAML file passed in `--param` argument
+  2. TO BE DONE: Get values from ENV variables if not found in the YAML file
+  3. TO BE DONE: Get values from URLs, useful to generate stuff online such as coreos discovery URL etc
+
+
 
 ## License
 
