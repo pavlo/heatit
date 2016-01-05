@@ -116,7 +116,7 @@ func processParams(data string, params *Parameters) (string, error) {
 
 				directive, err := directives.NewParamDirective(m)
 				if err != nil {
-					log.Printf("Invalid @param directive format: ", m)
+					log.Printf("Invalid @param directive format: %s", m)
 					return Empty, err
 				}
 
