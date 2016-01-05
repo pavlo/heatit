@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const PARAM_DIRECTIVE = DirectiveIndicator + "param"
+const ParamDirectiveTag = DirectiveIndicator + "param"
 
 type ParamDirective struct {
 	Name string

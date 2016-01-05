@@ -15,7 +15,7 @@ import (
 )
 
 var paramDirectiveRegexp, _ = regexp.Compile(fmt.Sprintf("(%s%s[a-z-]*)",
-	directives.PARAM_DIRECTIVE, directives.DirectiveSeparator))
+	directives.ParamDirectiveTag, directives.DirectiveSeparator))
 
 type Engine struct {
 	params          *Parameters
