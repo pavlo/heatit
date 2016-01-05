@@ -1,7 +1,6 @@
 package directives
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 )
@@ -36,7 +35,7 @@ func NewInsertDirective(source string) (*InsertDirective, error) {
 		result.SourceType = strings.TrimSpace(argSegments[0])
 		result.SourceValue = strings.TrimSpace(argSegments[1])
 	default:
-		return nil, errors.New(fmt.Sprintf("Failed to get directive from %s!", source))
+		return nil, fmt.Errorf("Failed to get directive from %s!", source)
 	}
 
 	return result, nil
