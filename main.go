@@ -8,7 +8,7 @@ import (
 
 const (
 	VERSION = "0.0.2"
-)	
+)
 
 func main() {
 	app := cli.NewApp()
@@ -34,7 +34,7 @@ func appFlags() []cli.Flag {
 	return []cli.Flag{
 		cli.BoolFlag{
 			Name:  "verbose",
-			Usage: "show more output",
+			Usage: "show more output ",
 		},
 	}
 }

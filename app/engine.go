@@ -81,7 +81,7 @@ func (engine *Engine) Process() {
 
 func processInserts(data string, indent int) (string, error) {
 	var result bytes.Buffer
-	lines := strings.Split(data, NEW_LINE)
+	lines := strings.Split(data, NewLine)
 
 	for _, line := range lines {
 		cleanLine := strings.TrimSpace(line)
@@ -93,12 +93,12 @@ func processInserts(data string, indent int) (string, error) {
 		if strings.Index(cleanLine, directives.INSERT_DIRECTIVE) == 0 {
 			err := handleSingleInsertion(line, indent, &result)
 			if err != nil {
-				return EMPTY, err
+				return Empty, err
 			}
 		} else {
-			result.WriteString(strings.Repeat(SPACE, indent))
+			result.WriteString(strings.Repeat(Space, indent))
 			result.WriteString(line)
-			result.WriteString(NEW_LINE)
+			result.WriteString(NewLine)
 		}
 	}
 
@@ -108,7 +108,7 @@ func processInserts(data string, indent int) (string, error) {
 func processParams(data string, params *Parameters) (string, error) {
 	var result bytes.Buffer
 
-	lines := strings.Split(data, NEW_LINE)
+	lines := strings.Split(data, NewLine)
 	for _, line := range lines {
 		matches := paramDirectiveRegexp.FindAllString(line, -1)
 		if matches != nil {
@@ -117,20 +117,20 @@ func processParams(data string, params *Parameters) (string, error) {
 				directive, err := directives.NewParamDirective(m)
 				if err != nil {
 					log.Printf("Invalid @param directive format: ", m)
-					return EMPTY, err
+					return Empty, err
 				}
 
 				value, err := params.getValue(directive.Name)
 				if err != nil {
 					log.Printf("Got a param: '%s', but had no value to replace it with.", m)
-					return EMPTY, err
+					return Empty, err
 
 				}
 				line = strings.Replace(line, m, value, -1)
 			}
 		}
 		result.WriteString(line)
-		result.WriteString(NEW_LINE)
+		result.WriteString(NewLine)
 	}
 
 	return result.String(), nil
@@ -152,7 +152,7 @@ func handleSingleInsertion(line string, indent int, result *bytes.Buffer) error 
 			return err
 		}
 
-		for _, contentLine := range strings.Split(content, NEW_LINE) {
+		for _, contentLine := range strings.Split(content, NewLine) {
 			contentLine, err = processInserts(contentLine, insertion.Indent+indent)
 			if err != nil {
 				log.Printf("Failed to execute processRecursiveInserts")

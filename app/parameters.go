@@ -25,7 +25,7 @@ func NewParameters(yamlFilename string) (*Parameters, error) {
 
 	result := &Parameters{data: make(map[string]Param)}
 
-	if yamlFilename == EMPTY {
+	if yamlFilename == Empty {
 		return result, nil
 	}
 
@@ -53,8 +53,8 @@ func NewParameters(yamlFilename string) (*Parameters, error) {
 func (params *Parameters) getValue(name string) (value string, err error) {
 	p := params.data[name]
 
-	if p.name == EMPTY {
-		return EMPTY, errors.New("No value found for key: " + name)
+	if p.name == Empty {
+		return Empty, errors.New("No value found for key: " + name)
 	}
 
 	return p.value, nil
