@@ -16,7 +16,10 @@ const (
 
 var currentLineRegexp, _ = regexp.Compile("line (\\d+):")
 
-// This means that it generated a content that can not be parsed into YAML, it is
+// DescribeUnmarshalError pretty prints the error that occured when it attempted
+// to convert the result to YAML.
+//
+// This means that it generated a content that can not be parsed into YAML. This certainly is
 // developer's issue and our job now is to help the developer out as much as possible.
 // The `yaml` library prints out a error message with the line number in the content
 // that it thinks had the error. So we dump the content line by line with line numbers
