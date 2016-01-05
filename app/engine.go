@@ -155,7 +155,7 @@ func handleSingleInsertion(line string, indent int, result *bytes.Buffer) error 
 		for _, contentLine := range strings.Split(content, NewLine) {
 			contentLine, err = processInserts(contentLine, insertion.Indent+indent)
 			if err != nil {
-				log.Println("Failed to execute processRecursiveInserts")
+				log.Println("Failed to execute handleSingleInsertion")
 				return err
 			}
 			result.WriteString(contentLine)
