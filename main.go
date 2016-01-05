@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	VERSION = "0.0.2"
+	version = "0.0.2"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 
 	app.Name = "heatit"
 	app.HelpName = app.Name
-	app.Version = VERSION
+	app.Version = version
 
 	app.Usage = "A command line tool that simplifies HEAT templates authoring and processing"
 	app.Flags = appFlags()
