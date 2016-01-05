@@ -2,6 +2,7 @@
 A command line tool that simplifies HEAT templates authoring and processing.
 
 [![Build Status](https://travis-ci.org/pavlo/heatit.svg?branch=master)](https://travis-ci.org/pavlo/heatit)
+[![Issue Count](https://codeclimate.com/github/pavlo/heatit/badges/issue_count.svg)](https://codeclimate.com/github/pavlo/heatit)
 
 ```sh
 $ heatit process --source=heat.yaml --params=params.yaml --destination=result.yaml
