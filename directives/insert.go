@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const INSERT_DIRECTIVE = DIRECTIVE_INDICATOR + "insert"
+const InsertDirectiveTag = DirectiveIndicator + "insert"
 
 type InsertDirective struct {
 	SourceType  string
@@ -20,17 +20,17 @@ func NewInsertDirective(source string) (*InsertDirective, error) {
 	s := strings.Replace(source, "\"", "", -1)
 	s = strings.Replace(s, "'", "", -1)
 
-	result.Indent = strings.Index(s, DIRECTIVE_INDICATOR)
+	result.Indent = strings.Index(s, DirectiveIndicator)
 
 	s = strings.TrimSpace(s)
-	segments := strings.SplitN(s, DIRECTIVE_SEPARATOR, 2)
+	segments := strings.SplitN(s, DirectiveSeparator, 2)
 	args := strings.TrimSpace(segments[1])
 
-	argSegments := strings.Split(args, DIRECTIVE_SEPARATOR)
+	argSegments := strings.Split(args, DirectiveSeparator)
 
 	switch len(argSegments) {
 	case 1:
-		result.SourceType = INSERT_DIRECTIVE_TYPE_FILE
+		result.SourceType = InsertDirectiveFileType
 		result.SourceValue = argSegments[0]
 	case 2:
 		result.SourceType = strings.TrimSpace(argSegments[0])

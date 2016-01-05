@@ -15,7 +15,7 @@ import (
 )
 
 var paramDirectiveRegexp, _ = regexp.Compile(fmt.Sprintf("(%s%s[a-z-]*)",
-	directives.PARAM_DIRECTIVE, directives.DIRECTIVE_SEPARATOR))
+	directives.PARAM_DIRECTIVE, directives.DirectiveSeparator))
 
 type Engine struct {
 	params          *Parameters
@@ -90,7 +90,7 @@ func processInserts(data string, indent int) (string, error) {
 			continue
 		}
 
-		if strings.Index(cleanLine, directives.INSERT_DIRECTIVE) == 0 {
+		if strings.Index(cleanLine, directives.InsertDirectiveTag) == 0 {
 			err := handleSingleInsertion(line, indent, &result)
 			if err != nil {
 				return Empty, err
@@ -144,7 +144,7 @@ func handleSingleInsertion(line string, indent int, result *bytes.Buffer) error 
 		return err
 	}
 
-	if insertion.SourceType == directives.INSERT_DIRECTIVE_TYPE_FILE {
+	if insertion.SourceType == directives.InsertDirectiveFileType {
 		content, err := utils.ReadTextFile(insertion.SourceValue)
 
 		if err != nil {

@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const PARAM_DIRECTIVE = DIRECTIVE_INDICATOR + "param"
+const PARAM_DIRECTIVE = DirectiveIndicator + "param"
 
 type ParamDirective struct {
 	Name string
@@ -14,7 +14,7 @@ type ParamDirective struct {
 
 func NewParamDirective(source string) (*ParamDirective, error) {
 	result := &ParamDirective{}
-	name := strings.Split(source, DIRECTIVE_SEPARATOR)
+	name := strings.Split(source, DirectiveSeparator)
 
 	if len(name) != 2 {
 		return nil, errors.New(fmt.Sprintf("Invlid ParameterDirective declaration: %s", source))

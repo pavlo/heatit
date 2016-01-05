@@ -13,7 +13,7 @@ func assertDirective(s string, t *testing.T) {
 		t.Fatalf("Failed to create InsertDirective from %s", s)
 	}
 
-	if d.SourceType != INSERT_DIRECTIVE_TYPE_FILE {
+	if d.SourceType != InsertDirectiveFileType {
 		t.Fatalf("Wrong source type for %s", s)
 	}
 
