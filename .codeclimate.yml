@@ -4,7 +4,7 @@ engines:
     checks:
       "GoLint/Comments/DocComments":
         enabled: false
-       "GoLint/Comments/PackageComments":
+      "GoLint/Comments/PackageComments":
         enabled: false
   govet:
     enabled: true
