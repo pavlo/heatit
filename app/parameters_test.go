@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-const VALID_YAML = "../fixtures/parameters/params.yaml"
+const ValidYaml = "../fixtures/parameters/params.yaml"
 
 func TestNewParameters(t *testing.T) {
-	p, err := NewParameters(VALID_YAML)
+	p, err := NewParameters(ValidYaml)
 
 	if err != nil {
 		t.Errorf("Failed to create an instance of Parameters!")
@@ -41,7 +41,7 @@ func TestNewParametersInvalidYamlFile(t *testing.T) {
 }
 
 func TestParametersGetValue(t *testing.T) {
-	p, _ := NewParameters(VALID_YAML)
+	p, _ := NewParameters(ValidYaml)
 
 	v, err := p.getValue("network-interface")
 
@@ -54,7 +54,7 @@ func TestParametersGetValue(t *testing.T) {
 }
 
 func TestParametersGetNonExistentValue(t *testing.T) {
-	p, _ := NewParameters(VALID_YAML)
+	p, _ := NewParameters(ValidYaml)
 
 	_, err := p.getValue("does-not-exits")
 
