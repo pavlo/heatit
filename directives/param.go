@@ -16,7 +16,7 @@ func NewParamDirective(source string) (*ParamDirective, error) {
 	name := strings.Split(source, DirectiveSeparator)
 
 	if len(name) != 2 {
-		return nil, fmt.Errorf("Invlid ParameterDirective declaration: %s", source)
+		return nil, fmt.Errorf("invalid ParameterDirective declaration: %s", source)
 	}
 
 	result.Name = strings.TrimSpace(name[1])
