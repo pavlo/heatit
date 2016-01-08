@@ -237,12 +237,12 @@ ExecStart=/opt/bin/etcd-env-generator.sh -n eth2 -t 550e8400-e29b-41d4-a716-4466
 It has a command line flag called `--param-override` (or `-P` for short) using which you can override parameter values read from the file. You can have as many `--param-override`s as needed:
  
 ```
-    heatit process --source=heat.yaml \
-        --params=params.yaml \
-        --destination=result.yaml \
-        -P network-interface=eth1 \
-        -P coreos-cluster-token=foooobar \
-        -P a-new-parameter=i-am-new!
+heatit process --source=heat.yaml \
+  --params=params.yaml \
+  --destination=result.yaml \
+  --param-override=network-interface=eth1 \
+  -P coreos-cluster-token=foooobar \
+  -P a-new-parameter=i-am-new!
 ```
 
 
