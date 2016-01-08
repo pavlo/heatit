@@ -236,7 +236,7 @@ ExecStart=/opt/bin/etcd-env-generator.sh -n @param:network-interface -t @param:c
 ExecStart=/opt/bin/etcd-env-generator.sh -n eth2 -t 550e8400-e29b-41d4-a716-446655440000
 ```
 
-##### Override file parameters 
+##### Override file parameters  
 
 It has a command line flag called `--param-override` (or `-P` for short) using which you can override parameter values read from the file. You can have as many `--param-override`s as needed:
  
