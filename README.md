@@ -234,12 +234,22 @@ ExecStart=/opt/bin/etcd-env-generator.sh -n @param:network-interface -t @param:c
 ExecStart=/opt/bin/etcd-env-generator.sh -n eth2 -t 550e8400-e29b-41d4-a716-446655440000
 ```
 
+It has a command line flag called `--param-override` (or `-P` for short) using which you can override parameter values read from the file. You can have as many `--param-override`s as needed:
+ 
+`heatit process --source=heat.yaml \
+    --params=params.yaml \
+    --destination=result.yaml \
+    -P network-interface=eth1 \
+    -P coreos-cluster-token=foooobar \
+    -P a-new-parameter=i-am-new!`
+
+
 #### Status
 
 `@param` directive supports these:
 
   1. COMPLETE: Get values from a YAML file passed in `--param` argument
-  2. TO BE DONE: Get values from ENV variables if not found in the YAML file
+  2. COMPLETE: Override values from the file with values passed to command as arguments
   3. TO BE DONE: Get values from URLs, useful to generate stuff online such as coreos discovery URL etc
 
 

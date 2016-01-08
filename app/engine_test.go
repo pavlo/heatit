@@ -48,7 +48,7 @@ func TestProcessTextParams2(t *testing.T) {
 
 func assertParams(t *testing.T, sourceFile string, expectedResultFile string) {
 	data := readFixture(t, sourceFile)
-	p, err := NewParameters("../fixtures/parameters/params.yaml")
+	p, err := NewParameters("../fixtures/parameters/params.yaml", make([]string, 0))
 
 	if err != nil {
 		t.Fatal("Failed to read params fixture!")

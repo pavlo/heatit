@@ -31,6 +31,11 @@ func GetProcessCommand() cli.Command {
 				Value: "",
 				Usage: "A flat YAML file (k/v) to take parameters from",
 			},
+			cli.StringSliceFlag{
+				Name:  "param-override, P",
+				Value: &cli.StringSlice{},
+				Usage: "Override parameters loaded from file (--params arg)",
+			},
 		},
 	}
 }

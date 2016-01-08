@@ -7,7 +7,7 @@ import (
 const ValidYaml = "../fixtures/parameters/params.yaml"
 
 func TestNewParameters(t *testing.T) {
-	p, err := NewParameters(ValidYaml)
+	p, err := NewParameters(ValidYaml, make([]string, 0))
 
 	if err != nil {
 		t.Errorf("Failed to create an instance of Parameters!")
@@ -22,8 +22,25 @@ func TestNewParameters(t *testing.T) {
 	assertParam(p, "coreos-token", "954398c993934acf5aedd1315a42d15d", TypeSimple, t)
 }
 
+func TestNewParametersWithOverride(t *testing.T) {
+	p, err := NewParameters(ValidYaml, []string{"coreos-token=overriden", "a-new-param=NewValue"})
+
+	if err != nil {
+		t.Errorf("Failed to create an instance of Parameters!")
+	}
+
+	if len(p.data) != 7 {
+		t.Errorf("Wrong number of parameters!")
+	}
+
+	assertParam(p, "private-network-uuid", "00497c93-978b-4ec8-b3f2-7fd0ea738ef4", TypeSimple, t)
+	assertParam(p, "network-interface", "eth2", TypeSimple, t)
+	assertParam(p, "coreos-token", "overriden", TypeSimple, t)
+	assertParam(p, "a-new-param", "NewValue", TypeSimple, t)
+}
+
 func TestNewParametersNoYamlFile(t *testing.T) {
-	p, err := NewParameters("")
+	p, err := NewParameters("", make([]string, 0))
 	if err != nil {
 		t.Errorf("Failed to create an instance of Parameters!")
 	}
@@ -34,14 +51,14 @@ func TestNewParametersNoYamlFile(t *testing.T) {
 }
 
 func TestNewParametersInvalidYamlFile(t *testing.T) {
-	_, err := NewParameters("../fixtures/invalid_yaml_file.yaml")
+	_, err := NewParameters("../fixtures/invalid_yaml_file.yaml", make([]string, 0))
 	if err == nil {
 		t.Errorf("Expected to receive an error, because YAML file is not parseable!")
 	}
 }
 
 func TestParametersGetValue(t *testing.T) {
-	p, _ := NewParameters(ValidYaml)
+	p, _ := NewParameters(ValidYaml, make([]string, 0))
 
 	v, err := p.getValue("network-interface")
 
@@ -54,7 +71,7 @@ func TestParametersGetValue(t *testing.T) {
 }
 
 func TestParametersGetNonExistentValue(t *testing.T) {
-	p, _ := NewParameters(ValidYaml)
+	p, _ := NewParameters(ValidYaml, make([]string, 0))
 
 	_, err := p.getValue("does-not-exits")
 

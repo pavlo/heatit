@@ -1,7 +1,8 @@
 package app
 
 const (
-	NewLine = "\n"
-	Space   = " "
-	Empty   = ""
+	NewLine   = "\n"
+	Space     = " "
+	Empty     = ""
+	EqualSign = "="
 )

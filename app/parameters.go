@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/pavlo/heatit/utils"
+	"strings"
 )
 
 const (
@@ -21,7 +22,7 @@ type Param struct {
 	resolved  bool
 }
 
-func NewParameters(yamlFilename string) (*Parameters, error) {
+func NewParameters(yamlFilename string, overrides []string) (*Parameters, error) {
 
 	result := &Parameters{data: make(map[string]Param)}
 
@@ -30,9 +31,13 @@ func NewParameters(yamlFilename string) (*Parameters, error) {
 	}
 
 	data, err := utils.ParseYamlFile(yamlFilename)
-
 	if err != nil {
 		return nil, err
+	}
+
+	for _, overrideItem := range overrides {
+		overrideKey, overrideValue := toParameter(overrideItem)
+		data[overrideKey] = overrideValue
 	}
 
 	for k, v := range data {
@@ -48,6 +53,16 @@ func NewParameters(yamlFilename string) (*Parameters, error) {
 	}
 
 	return result, nil
+}
+
+// The `source` is passed as --override-param argument
+// it looks like `key=value` string, we're splitting it below
+func toParameter(source string) (key, value string) {
+	segments := strings.SplitN(source, EqualSign, 2)
+	if len(segments) == 2 {
+		return segments[0], segments[1]
+	}
+	return segments[0], Empty
 }
 
 func (params *Parameters) getValue(name string) (value string, err error) {

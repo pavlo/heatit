@@ -28,11 +28,12 @@ func NewEngine(c *cli.Context) *Engine {
 		c.String("source"),
 		c.String("destination"),
 		c.String("params"),
+		c.StringSlice("param-override"),
 	)
 }
 
-func engine(source string, destination string, params string) *Engine {
-	p, err := NewParameters(params)
+func engine(source string, destination string, params string, paramOverrides []string) *Engine {
+	p, err := NewParameters(params, paramOverrides)
 	if err != nil {
 		log.Fatalf("Failed to parse parameters file! %v", err)
 	}
