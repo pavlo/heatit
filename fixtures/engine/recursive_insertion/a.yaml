@@ -1,7 +1,7 @@
 heat_template_version: 2014-10-16
 parameters:
   flavor:
-    @insert: "file:../fixtures/engine/recursive_insertion/b.yaml"
+    @insert: "../fixtures/engine/recursive_insertion/b.yaml"
   ssh_key_name:
     type: string
     label: SSH Key name

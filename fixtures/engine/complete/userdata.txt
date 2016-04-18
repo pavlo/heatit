@@ -4,11 +4,11 @@ coreos:
     - name: etcd-env-generator.service
       command: start
       content: |
-        @insert:file:../fixtures/engine/complete/etcd-env-generator.service
+        @insert: ../fixtures/engine/complete/etcd-env-generator.service
     - name: etcd2.service
       drop-ins:
-        @insert:file:../fixtures/engine/complete/etcd-timeout-dropin.txt
-        @insert:file:../fixtures/engine/complete/etcd2-private-networking-dropin.txt
+        @insert: ../fixtures/engine/complete/etcd-timeout-dropin.txt
+        @insert: ../fixtures/engine/complete/etcd2-private-networking-dropin.txt
       command: start
     - name: fleet.service
       command: start

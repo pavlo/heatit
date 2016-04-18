@@ -1,8 +1,12 @@
 package utils
 
 import (
+	"github.com/pavlo/heatit/directives"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"net/http"
+	"log"
+	"fmt"
 )
 
 func ParseYamlFile(path string) (map[interface{}]interface{}, error) {
@@ -21,9 +25,43 @@ func ParseYamlFile(path string) (map[interface{}]interface{}, error) {
 	return data, nil
 }
 
+func GetContentForInsertion(insert *directives.InsertDirective) (string, error) {
+
+	fmt.Print("HERE!!!")
+
+	var content string
+	var err error
+
+	if insert.Scheme == directives.DefaultScheme {
+		content, err = ReadTextFile(insert.SourceValue)
+	} else {
+		content, err = GetRequest(insert.SourceValue)
+	}
+
+	if err != nil {
+		log.Printf("Failed to read %s file for insertion!", insert.SourceValue)
+		return "", err
+	}
+
+	return content, nil
+}
+
 func ReadTextFile(filename string) (string, error) {
 	b, e := ioutil.ReadFile(filename)
 	return string(b), e
+}
+
+func GetRequest(url string) (string, error) {
+
+	fmt.Print("HERE")
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	return string(body), nil
 }
 
 func WriteTextFile(filename string, content []byte) error {

@@ -1,7 +1,7 @@
 heat_template_version: 2014-10-16
 parameters:
   flavor:
-    @insert: "file:../fixtures/engine/complete/flavors.yaml"
+    @insert: "../fixtures/engine/complete/flavors.yaml"
   ssh_key_name:
     type: string
     label: SSH Key name
@@ -26,4 +26,4 @@ resources:
           user_data_format: "RAW"
           config_drive: "true"
           user_data: |
-            @insert : "file:../fixtures/engine/complete/userdata.txt"
+            @insert : "../fixtures/engine/complete/userdata.txt"

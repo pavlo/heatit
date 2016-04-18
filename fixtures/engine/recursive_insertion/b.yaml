@@ -1,2 +1,2 @@
 type: string
-@insert: "file:../fixtures/engine/recursive_insertion/c.yaml"
+@insert: "../fixtures/engine/recursive_insertion/c.yaml"

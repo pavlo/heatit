@@ -30,6 +30,14 @@ func TestEngineProcessInsertsComplete(t *testing.T) {
 	)
 }
 
+func TestUrlInsertions(t *testing.T) {
+	assertInserts(
+		t,
+		"../fixtures/engine/url_insertion/a.yaml",
+		"../fixtures/engine/url_insertion/result.yaml",
+	)
+}
+
 func TestProcessYamlParams(t *testing.T) {
 	assertParams(
 		t,
@@ -45,6 +53,8 @@ func TestProcessTextParams2(t *testing.T) {
 		"../fixtures/parameters/text/result.txt",
 	)
 }
+
+
 
 func assertParams(t *testing.T, sourceFile string, expectedResultFile string) {
 	data := readFixture(t, sourceFile)

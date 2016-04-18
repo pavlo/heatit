@@ -145,23 +145,20 @@ func handleSingleInsertion(line string, indent int, result *bytes.Buffer) error 
 		return err
 	}
 
-	if insertion.SourceType == directives.InsertDirectiveFileType {
-		content, err := utils.ReadTextFile(insertion.SourceValue)
+	content, err := utils.GetContentForInsertion(insertion)
+	if err != nil {
+		return err
+	}
 
+	for _, contentLine := range strings.Split(content, NewLine) {
+		contentLine, err = processInserts(contentLine, insertion.Indent+indent)
 		if err != nil {
-			log.Printf("Failed to read %s file for insertion!", insertion.SourceValue)
+			log.Println("Failed to execute handleSingleInsertion")
 			return err
 		}
-
-		for _, contentLine := range strings.Split(content, NewLine) {
-			contentLine, err = processInserts(contentLine, insertion.Indent+indent)
-			if err != nil {
-				log.Println("Failed to execute handleSingleInsertion")
-				return err
-			}
-			result.WriteString(contentLine)
-		}
+		result.WriteString(contentLine)
 	}
+
 
 	return nil
 }

@@ -3,12 +3,13 @@ package directives
 import (
 	"fmt"
 	"strings"
+	"net/url"
 )
 
 const InsertDirectiveTag = DirectiveIndicator + "insert"
 
 type InsertDirective struct {
-	SourceType  string
+	Scheme      string
 	SourceValue string
 	Indent      int
 }
@@ -25,18 +26,21 @@ func NewInsertDirective(source string) (*InsertDirective, error) {
 	segments := strings.SplitN(s, DirectiveSeparator, 2)
 	args := strings.TrimSpace(segments[1])
 
-	argSegments := strings.Split(args, DirectiveSeparator)
-
-	switch len(argSegments) {
-	case 1:
-		result.SourceType = InsertDirectiveFileType
-		result.SourceValue = argSegments[0]
-	case 2:
-		result.SourceType = strings.TrimSpace(argSegments[0])
-		result.SourceValue = strings.TrimSpace(argSegments[1])
-	default:
-		return nil, fmt.Errorf("failed to get directive from %s", source)
+	insertionUrl, err := url.Parse(args)
+	if (err != nil) {
+		return nil, fmt.Errorf("failed to get directive from %s, %v", source, err)
 	}
 
+	if (insertionUrl.Scheme == Empty) {
+		result.Scheme = DefaultScheme
+	} else {
+		result.Scheme = insertionUrl.Scheme
+	}
+
+	sourceValue := insertionUrl.String()
+	if (result.Scheme == DefaultScheme) {
+		sourceValue = strings.Replace(sourceValue, DefaultScheme + "://", "", 1);
+	}
+	result.SourceValue = sourceValue
 	return result, nil
 }

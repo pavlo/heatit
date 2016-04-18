@@ -1,7 +1,8 @@
 package directives
 
 const (
+	Empty			= ""
 	DirectiveIndicator      = "@"
 	DirectiveSeparator      = ":"
-	InsertDirectiveFileType = "file"
+	DefaultScheme 		= "file"
 )
