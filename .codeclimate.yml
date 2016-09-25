@@ -10,3 +10,8 @@ engines:
     enabled: true
   gofmt:
     enabled: true
+exclude_paths:
+- vendor/
+- docs
+- Godeps
+- docker
